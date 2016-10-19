@@ -183,7 +183,7 @@ struct bgp_bucket {
 
 #define BGP_PORT		179
 #define BGP_VERSION		4
-#define BGP_HEADER_LENGTH	19U
+#define BGP_HEADER_LENGTH	19
 #define BGP_MAX_MESSAGE_LENGTH	4096
 #define BGP_MAX_EXT_MSG_LENGTH	65535
 #define BGP_RX_BUFFER_SIZE	4096
