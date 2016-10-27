@@ -1969,3 +1969,33 @@ bgp_get_route_info(rte *e, byte *buf, ea_list *attrs)
     buf += bsprintf(buf, "%c", "ie?"[o->u.data]);
   strcpy(buf, "]");
 }
+
+void
+bgp_get_route_info_(rte *e, byte *buf, ea_list *attrs)
+{
+  eattr *p = ea_find(attrs, EA_CODE(EAP_BGP, BA_AS_PATH));
+  eattr *a = ea_find(attrs, EA_CODE(EAP_BGP, BA_COMMUNITY));
+  u32 origas;
+  char buf2[1024];
+  if (p && as_path_get_last(p->u.ptr, &origas))
+    buf += bsprintf(buf, "%u", origas);
+  if (p)
+    as_path_format(p->u.ptr, buf2, 1000);
+    buf += bsprintf(buf, " [%s]", buf2);
+    *buf2 = 0;
+  if (a)
+  {
+    buf += bsprintf(buf, " [");
+    u32 *z = (u32 *) a->u.ptr->data;
+    int to = a->u.ptr->length / 4;
+    int i;
+
+    for (i = 0; i < to; i++)
+    {
+      buf += bsprintf(buf, "(%d,%d)",  z[i] >> 16, z[i] & 0xffff);
+      if (i < to - 1)
+        buf += bsprintf(buf, ", ");
+    }
+    buf += bsprintf(buf, "]");
+  }
+}

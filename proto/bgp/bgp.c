@@ -1595,6 +1595,6 @@ struct protocol proto_bgp = {
   .copy_config = 	bgp_copy_config,
   .get_status = 	bgp_get_status,
   .get_attr = 		bgp_get_attr,
-  .get_route_info = 	bgp_get_route_info,
+  .get_route_info = 	bgp_get_route_info_,
   .show_proto_info = 	bgp_show_proto_info
 };

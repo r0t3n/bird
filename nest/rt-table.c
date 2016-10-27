@@ -42,6 +42,7 @@
 #include "filter/filter.h"
 #include "lib/string.h"
 #include "lib/alloca.h"
+#include "proto/bgp/bgp.h"
 
 pool *rt_table_pool;
 
@@ -2424,10 +2425,11 @@ rt_show_rte(struct cli *c, byte *ia, rte *e, struct rt_show_data *d, ea_list *tm
     }
   if (get_route_info)
     get_route_info(e, info, tmpa);
+  eattr *o = ea_find(tmpa, EA_CODE(EAP_BGP, BA_ORIGIN));
+  if (o)
+    cli_printf(c, -1007, "%-18s [%c%s] %s", ia, "ie?"[o->u.data], primary ? (sync_error ? "!" : "*") : "", info);
   else
-    bsprintf(info, " (%d)", e->pref);
-  cli_printf(c, -1007, "%-18s %s [%s %s%s]%s%s", ia, rt_format_via(e), a->src->proto->name,
-	     tm, from, primary ? (sync_error ? " !" : " *") : "", info);
+    cli_printf(c, -1007, "%-18s [%s%s] %s", ia, "u", primary ? (sync_error ? "!" : "*") : "", info);
   for (nh = a->nexthops; nh; nh = nh->next)
     cli_printf(c, -1007, "\tvia %I on %s weight %d", nh->gw, nh->iface->name, nh->weight + 1);
   if (d->verbose)
