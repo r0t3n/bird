@@ -2427,7 +2427,10 @@ rt_show_rte(struct cli *c, byte *ia, rte *e, struct rt_show_data *d, ea_list *tm
     get_route_info(e, info, tmpa);
   eattr *o = ea_find(tmpa, EA_CODE(EAP_BGP, BA_ORIGIN));
   if (o)
-    cli_printf(c, -1007, "%-18s [%c%s] %s", ia, "ie?"[o->u.data], primary ? (sync_error ? "!" : "*") : "", info);
+  {
+    cli_printf(c, -1007, "{\"prefix\": \"%s\", \"status\": [\"%c\", \"%s\"]%s}", ia, "ie?"[o->u.data], primary ? (sync_error ? "!" : "*") : "", info);
+    /*    cli_printf(c, -1007, "%-18s [%c%s] %s", ia, "ie?"[o->u.data], primary ? (sync_error ? "!" : "*") : "", info); */
+  }
   else
     cli_printf(c, -1007, "%-18s [%s%s] %s", ia, "u", primary ? (sync_error ? "!" : "*") : "", info);
   for (nh = a->nexthops; nh; nh = nh->next)

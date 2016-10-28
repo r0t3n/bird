@@ -1978,21 +1978,21 @@ bgp_get_route_info_(rte *e, byte *buf, ea_list *attrs)
   u32 origas;
   char buf2[1024];
   if (p && as_path_get_last(p->u.ptr, &origas))
-    buf += bsprintf(buf, "%u", origas);
+    buf += bsprintf(buf, ", \"originas\": \"%u\"", origas);
   if (p)
     as_path_format(p->u.ptr, buf2, 1000);
-    buf += bsprintf(buf, " [%s]", buf2);
+    buf += bsprintf(buf, ", \"aspath\": \"%s\"", buf2);
     *buf2 = 0;
   if (a)
   {
-    buf += bsprintf(buf, " [");
+    buf += bsprintf(buf, ", \"comm\": [");
     u32 *z = (u32 *) a->u.ptr->data;
     int to = a->u.ptr->length / 4;
     int i;
 
     for (i = 0; i < to; i++)
     {
-      buf += bsprintf(buf, "(%d,%d)",  z[i] >> 16, z[i] & 0xffff);
+      buf += bsprintf(buf, "\"%d %d\"",  z[i] >> 16, z[i] & 0xffff);
       if (i < to - 1)
         buf += bsprintf(buf, ", ");
     }
