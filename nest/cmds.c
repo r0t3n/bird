@@ -64,7 +64,7 @@ cmd_show_symbols(struct sym_show_data *sd)
     }
 }
 
-static void
+/*static void
 print_size(char *dsc, size_t val)
 {
   char *px = " kMG";
@@ -76,7 +76,7 @@ print_size(char *dsc, size_t val)
     }
 
   cli_msg(-1018, "%-17s %4u %cB", dsc, (unsigned) val, px[i]);
-}
+}*/
 
 extern pool *rt_table_pool;
 extern pool *rta_pool;
@@ -86,12 +86,14 @@ extern pool *proto_pool;
 void
 cmd_show_memory(void)
 {
-  cli_msg(-1018, "BIRD memory usage");
+  /*cli_msg(-1018, "BIRD memory usage");
   print_size("Routing tables:", rmemsize(rt_table_pool));
   print_size("Route attributes:", rmemsize(rta_pool));
   print_size("ROA tables:", rmemsize(roa_pool));
   print_size("Protocols:", rmemsize(proto_pool));
   print_size("Total:", rmemsize(&root_pool));
+  cli_msg(0, "");*/
+  cli_msg(-1018, "{\"tables\": %u, \"attrs\": %u, \"roa\": %u, \"protocols\": %u, \"total\": %u}", (unsigned) rmemsize(rt_table_pool), (unsigned) rmemsize(rta_pool), (unsigned) rmemsize(roa_pool), (unsigned) rmemsize(proto_pool), (unsigned) rmemsize(&root_pool));
   cli_msg(0, "");
 }
 

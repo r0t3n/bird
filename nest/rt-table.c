@@ -2557,12 +2557,12 @@ rt_show_cont(struct cli *c)
       net *n = (net *) f;
       if (d->running_on_config && d->running_on_config != config)
 	{
-	  cli_printf(c, 8004, "Stopped due to reconfiguration");
+	  cli_printf(c, 8004, "{\"error\": \"Stopped due to reconfiguration\"}");
 	  goto done;
 	}
       if (d->export_protocol && (d->export_protocol->export_state == ES_DOWN))
 	{
-	  cli_printf(c, 8005, "Protocol is down");
+	  cli_printf(c, 8005, "{\"error\": \"Protocol is down\"}");
 	  goto done;
 	}
       if (!max--)
@@ -2574,7 +2574,7 @@ rt_show_cont(struct cli *c)
     }
   FIB_ITERATE_END(f);
   if (d->stats)
-    cli_printf(c, 14, "%d of %d routes for %d networks", d->show_counter, d->rt_counter, d->net_counter);
+    cli_printf(c, 14, "{\"counter\": %d, \"rt_counter\": %d, \"net_counter\": %d}", d->show_counter, d->rt_counter, d->net_counter);
   else
     cli_printf(c, 0, "");
 done:
