@@ -302,6 +302,7 @@ rt_mark_for_prune(rtable *tab)
 struct rt_show_data {
   ip_addr prefix;
   unsigned pxlen;
+  u32 asn;
   rtable *table;
   struct filter *filter;
   int verbose;
@@ -311,7 +312,7 @@ struct rt_show_data {
   int export_mode, primary_only, filtered;
   struct config *running_on_config;
   int net_counter, rt_counter, show_counter;
-  int stats, show_for;
+  int stats, show_for, show_asn;
 };
 void rt_show(struct rt_show_data *);
 

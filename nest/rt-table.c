@@ -2519,6 +2519,20 @@ rt_show_net(struct cli *c, net *n, struct rt_show_data *d)
       if (d->show_protocol && (d->show_protocol != e->attrs->src->proto))
 	goto skip;
 
+      if (d->show_asn)
+      {
+        eattr *p = ea_find(e->attrs->eattrs, EA_CODE(EAP_BGP, BA_AS_PATH));
+        if (p)
+        {
+          u32 asn;
+          as_path_get_last(p->u.ptr, &asn);
+          if (d->asn != asn)
+            goto skip;
+        } else {
+          goto skip;
+        }
+      }
+
       if (f_run(d->filter, &e, &tmpa, rte_update_pool, FF_FORCE_TMPATTR) > F_ACCEPT)
 	goto skip;
 
