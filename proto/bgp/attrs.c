@@ -1992,7 +1992,7 @@ bgp_get_route_info_(rte *e, byte *buf, ea_list *attrs)
 
     for (i = 0; i < to; i++)
     {
-      buf += bsprintf(buf, "\"%d %d\"",  z[i] >> 16, z[i] & 0xffff);
+      buf += bsprintf(buf, "\"%d:%d\"",  z[i] >> 16, z[i] & 0xffff);
       if (i < to - 1)
         buf += bsprintf(buf, ", ");
     }
